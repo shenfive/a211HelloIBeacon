@@ -43,9 +43,22 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         for beacon in beacons{
-            print(beacon.proximityUUID, beacon.major, beacon.minor, beacon.accuracy)
+//            print(beacon.proximityUUID, beacon.major, beacon.minor, beacon.accuracy)
             if beacon.minor == 3301 {
                 label1.text = "\(beacon.accuracy)"
+                switch beacon.proximity {
+                case .immediate:
+                    print("immediate")
+                case .near:
+                    print("near")
+                case .far:
+                    print("far")
+                case .unknown:
+                    print("unknown")
+                @unknown default:
+                    print("@unknown default")
+                }
+
             }
         }
     }
