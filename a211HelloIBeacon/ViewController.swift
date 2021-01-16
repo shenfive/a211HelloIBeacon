@@ -65,7 +65,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
-        let c = 4.2
+        let c = 2.0
         var a = 0.0
         var b = 0.0
         
