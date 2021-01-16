@@ -6,12 +6,18 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,CLLocationManagerDelegate {
+    
+    var locationMgr:CLLocationManager!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        locationMgr = CLLocationManager()
+        locationMgr.delegate = self
+        locationMgr.requestAlwaysAuthorization()
+        
     }
 
 
