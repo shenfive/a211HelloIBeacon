@@ -12,13 +12,21 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     @IBOutlet weak var label1: UILabel!
     var locationMgr:CLLocationManager!
+    var locationView:UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        locationView.backgroundColor = UIColor.red
+        view.addSubview(locationView)
+        
         locationMgr = CLLocationManager()
         locationMgr.delegate = self
         locationMgr.requestAlwaysAuthorization()
         monitorBeacons()
+        
+        
+        
     }
     func monitorBeacons() {
         if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
@@ -86,7 +94,10 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         print("x:\(x) y:\(y)")
         
         label1.text = "a:\(a)\nb:\(b)\nx:\(x)\ny:\(y)"
-        
+        if x > 0 && y > 0{
+            let rect = CGRect(x: x * 250 , y: y * 250, width: 30, height: 30)
+            locationView.frame = rect
+        }
         
     }
     
