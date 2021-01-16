@@ -32,9 +32,23 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("enter region")
+        let content = UNMutableNotificationContent()
+         content.title = "歡迎光臨"
+         content.subtitle = "我們的家"
+         content.badge = 1
+         content.sound = UNNotificationSound.default
+         let request = UNNotificationRequest(identifier: "notification", content: content, trigger: nil)
+         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+
      }
      func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("exit region")
+        let content = UNMutableNotificationContent()
+         content.title = "謝謝光臨"
+         content.subtitle = "我們的家"
+         content.badge = 1
+         content.sound = UNNotificationSound.default
+         let request = UNNotificationRequest(identifier: "notification", content: content, trigger: nil)
+         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
      }
       func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
           print("start Region")
@@ -42,25 +56,38 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
 
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        
+        let c = 4.2
+        var a = 0.0
+        var b = 0.0
+        
+        
         for beacon in beacons{
-//            print(beacon.proximityUUID, beacon.major, beacon.minor, beacon.accuracy)
+            
+            print("beacon:\(beacon.minor):\(beacon.accuracy)")
+            
+            
+            
             if beacon.minor == 3301 {
-                label1.text = "\(beacon.accuracy)"
-                switch beacon.proximity {
-                case .immediate:
-                    print("immediate")
-                case .near:
-                    print("near")
-                case .far:
-                    print("far")
-                case .unknown:
-                    print("unknown")
-                @unknown default:
-                    print("@unknown default")
-                }
-
+                a = Double(beacon.accuracy)
             }
+            
+            if beacon.minor == 3305 {
+                b = Double(beacon.accuracy)
+            }
+        
         }
+        
+        // c 為 Beacon1 與 Beacon 2 的距離，a 為  手機與 Beacon1 的 距離，b 為 Beacon2 的
+        var s = ( a + b + c ) / 2  //由三角形三邊長取得海龍公司參數，用來計算面積
+        var area = sqrt( s * ( s - a ) * ( s - b ) * ( s - c ) )  //取得面積
+        let y = area * 2 / c  //由三角形面積估算 Y 座標
+        let x = sqrt( ( a * a ) - ( y * y ) ) // 使用畢氏定理（勾股定理）計算 x 座標
+        print("x:\(x) y:\(y)")
+        
+        label1.text = "a:\(a)\nb:\(b)\nx:\(x)\ny:\(y)"
+        
+        
     }
     
 }
