@@ -10,6 +10,7 @@ import CoreLocation
 
 class ViewController: UIViewController,CLLocationManagerDelegate {
     
+    @IBOutlet weak var label1: UILabel!
     var locationMgr:CLLocationManager!
     
     override func viewDidLoad() {
@@ -24,6 +25,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             if let proximityUUID = UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D"){
                 let region = CLBeaconRegion(uuid: proximityUUID, major: 3736, identifier: "beaconID")
                 locationMgr.startMonitoring(for: region)
+                locationMgr.startRangingBeacons(in: region  as! CLBeaconRegion)
             }
         }
     }
@@ -39,6 +41,14 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
       }
 
     
+    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        for beacon in beacons{
+            print(beacon.proximityUUID, beacon.major, beacon.minor, beacon.accuracy)
+            if beacon.minor == 3301 {
+                label1.text = "\(beacon.accuracy)"
+            }
+        }
+    }
     
 }
 
